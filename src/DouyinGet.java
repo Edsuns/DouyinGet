@@ -33,7 +33,7 @@ public class DouyinGet {
     }
 
     private String parseWord(String str) {
-        Matcher matcher = Pattern.compile(" (http[s]?:[\\w\\d./]*?) ").matcher(str);
+        Matcher matcher = Pattern.compile(" (https?://[\\w\\d./]*?) ").matcher(str);
         if (matcher.find()) {// 提取口令中的链接
             return matcher.group(1);
         }
@@ -116,11 +116,6 @@ public class DouyinGet {
      * @return 编码
      */
     private String getEncoding(HttpURLConnection connection) {
-        String contentEncoding = connection.getContentEncoding();
-        if (contentEncoding != null) {
-            return contentEncoding;
-        }
-
         String contentType = connection.getContentType();
         for (String value : contentType.split(";")) {
             value = value.trim();
@@ -128,7 +123,6 @@ public class DouyinGet {
                 return value.substring(8);
             }
         }
-
         return ENCODING;
     }
 }
